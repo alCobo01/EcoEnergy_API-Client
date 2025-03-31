@@ -1,0 +1,17 @@
+[
+  {
+    "Name": "Multiple projects",
+    "Projects": [
+      {
+        "Path": "T1-PR2 API\\T1-PR2 API.csproj",
+        "Action": "Start",
+        "DebugTarget": "https"
+      },
+      {
+        "Path": "T1-PR2 Client\\T1-PR2 Client.csproj",
+        "Action": "Start",
+        "DebugTarget": "https"
+      }
+    ]
+  }
+]
