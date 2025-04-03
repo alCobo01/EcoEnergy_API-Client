@@ -13,7 +13,7 @@ namespace T1_PR2_API
             builder.Services.AddSwaggerGen();
 
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-            builder.Services.AddDbContext<IdentityDbContext>(options =>
+            builder.Services.AddDbContext<AppDbContext>(options =>
             {
                 options.UseSqlServer(connectionString);
             });

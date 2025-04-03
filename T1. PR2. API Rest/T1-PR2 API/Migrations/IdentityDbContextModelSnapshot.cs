@@ -9,7 +9,7 @@ using T1_PR2_API.Data;
 
 namespace T1_PR2_API.Migrations
 {
-    [DbContext(typeof(IdentityDbContext))]
+    [DbContext(typeof(AppDbContext))]
     partial class IdentityDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

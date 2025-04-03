@@ -10,7 +10,7 @@ using T1_PR2_API.Data;
 
 namespace T1_PR2_API.Migrations
 {
-    [DbContext(typeof(IdentityDbContext))]
+    [DbContext(typeof(AppDbContext))]
     [Migration("20250401111534_InitialMigration")]
     partial class InitialMigration
     {
