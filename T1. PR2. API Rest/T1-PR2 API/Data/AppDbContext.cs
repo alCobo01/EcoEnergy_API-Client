@@ -20,5 +20,18 @@ namespace T1_PR2_API.Data
             string connectionString = configuration.GetConnectionString("DefaultConnection");
             optionsBuilder.UseSqlServer(connectionString);
         }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            builder.Entity<User>()
+                .HasMany(u => u.RatedGames)
+                .WithMany(g => g.RatedUsers);
+
+            builder.Entity<Game>()
+                .HasMany(g => g.RatedUsers)
+                .WithMany(u => u.RatedGames);
+        }
     }
 }

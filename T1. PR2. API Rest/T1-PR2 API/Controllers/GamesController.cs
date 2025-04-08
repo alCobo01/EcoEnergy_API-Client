@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using T1_PR2_API.Data;
 using T1_PR2_API.DTOs;
@@ -17,22 +18,36 @@ namespace T1_PR2_API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Game>>> GetAll()
         {
-            var films = await _context.Games.ToListAsync();
-            if (films.Count == 0) return NotFound("No games found!");
-            return Ok(films);
+            var games = await _context.Games
+                .Include(g => g.RatedUsers)
+                .ToListAsync();
+
+            if (games.Count == 0) return NotFound("No games found!");
+
+            var gameDTOs = games.Select(g => new GetGameDTO
+            {
+                Id = g.Id,
+                Title = g.Title,
+                Description = g.Description,
+                DeveloperTeam = g.DeveloperTeam,
+                RatedUsers = g.RatedUsers.Select(u => u.UserName).ToList()
+            }).ToList();
+
+            
+            return Ok(gameDTOs);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Game>> GetByName(string title)
+        public async Task<ActionResult<Game>> GetById(int id)
         {
-            var game = await _context.Games.FirstOrDefaultAsync(g => g.Title == title);
-            if (game == null) return NotFound($"Game {title} not found!");
+            var game = await _context.Games.FirstOrDefaultAsync(g => g.Id == id);
+            if (game == null) return NotFound($"Game {id} not found!");
             return Ok(game);
         }
 
-        //Falta autenticació per afegir, editar i borrar
+        [Authorize(Roles = "Admin")]
         [HttpPost]
-        public async Task<ActionResult<Game>> Add(GameDTO gameDTO)
+        public async Task<ActionResult<Game>> Add(InsertGameDTO gameDTO)
         {
             try
             {
@@ -51,7 +66,7 @@ namespace T1_PR2_API.Controllers
                 _context.Games.Add(game);
                 await _context.SaveChangesAsync();
 
-                return CreatedAtAction(nameof(GetByName), game);
+                return CreatedAtAction(nameof(GetById), new { id = game.Id } , game);
             }
             catch (DbUpdateException)
             {
@@ -59,7 +74,8 @@ namespace T1_PR2_API.Controllers
             }
         }
 
-        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        [HttpDelete]
         public async Task<ActionResult<Game>> Delete(int id)
         {
             try
@@ -75,8 +91,9 @@ namespace T1_PR2_API.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
-        public async Task<ActionResult<Game>> Update(int id, GameDTO gameDTO)
+        public async Task<ActionResult<Game>> Update(int id, InsertGameDTO gameDTO)
         {
             try
             {
@@ -93,8 +110,29 @@ namespace T1_PR2_API.Controllers
             }
         }
 
+        [Authorize]
+        [HttpPost("vote")]
+        public async Task<ActionResult> Vote(int gameId, string userId)
+        {
+            try
+            {
+                var game = await _context.Games.Include(g => g.RatedUsers).FirstOrDefaultAsync(g => g.Id == gameId);
+                if (game == null) return NotFound($"Game {gameId} not found!");
 
+                var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+                if (user == null) return NotFound($"User {userId} not found!");
 
+                if (game.RatedUsers.Any(u => u.Id == userId)) return BadRequest("User has already voted for this game.");
 
+                game.RatedUsers.Add((User)user);
+                await _context.SaveChangesAsync();
+
+                return Ok($"Game {game.Title} upvoted!");
+            }
+            catch (DbUpdateException)
+            {
+                return BadRequest("An error occurred while voting. Try again.");
+            }
+        }
     }
 }
