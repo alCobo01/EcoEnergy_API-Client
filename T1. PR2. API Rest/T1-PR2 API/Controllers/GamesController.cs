@@ -24,6 +24,7 @@ namespace T1_PR2_API.Controllers
 
             if (games.Count == 0) return NotFound("No games found!");
 
+            // Map the games to DTOs to avoid infinitive recursivity exception
             var gameDTOs = games.Select(g => new GetGameDTO
             {
                 Id = g.Id,
@@ -33,16 +34,27 @@ namespace T1_PR2_API.Controllers
                 RatedUsers = g.RatedUsers.Select(u => u.UserName).ToList()
             }).ToList();
 
-            
             return Ok(gameDTOs);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Game>> GetById(int id)
         {
-            var game = await _context.Games.FirstOrDefaultAsync(g => g.Id == id);
+            var game = await _context.Games
+                .Include(g => g.RatedUsers)
+                .FirstOrDefaultAsync(g => g.Id == id);
             if (game == null) return NotFound($"Game {id} not found!");
-            return Ok(game);
+
+            var gameDTO = new GetGameDTO
+            {
+                Id = game.Id,
+                Title = game.Title,
+                Description = game.Description,
+                DeveloperTeam = game.DeveloperTeam,
+                RatedUsers = game.RatedUsers.Select(u => u.UserName).ToList()
+            };
+
+            return Ok(gameDTO);
         }
 
         [Authorize(Roles = "Admin")]
@@ -119,12 +131,15 @@ namespace T1_PR2_API.Controllers
                 var game = await _context.Games.Include(g => g.RatedUsers).FirstOrDefaultAsync(g => g.Id == gameId);
                 if (game == null) return NotFound($"Game {gameId} not found!");
 
-                var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+                // Retrieve the user as your custom User class
+                var user = await _context.Users.OfType<User>().FirstOrDefaultAsync(u => u.Id == userId);
                 if (user == null) return NotFound($"User {userId} not found!");
 
                 if (game.RatedUsers.Any(u => u.Id == userId)) return BadRequest("User has already voted for this game.");
 
-                game.RatedUsers.Add((User)user);
+                user.RatedGames.Add(game);
+                game.RatedUsers.Add(user);
+
                 await _context.SaveChangesAsync();
 
                 return Ok($"Game {game.Title} upvoted!");
