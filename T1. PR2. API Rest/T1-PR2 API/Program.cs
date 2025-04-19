@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using T1_PR2_API.Data;
+using T1_PR2_API.Hubs;
 using T1_PR2_API.Models;
 
 namespace T1_PR2_API
@@ -14,11 +14,11 @@ namespace T1_PR2_API
     {
         public static async Task Main(string[] args)
         {
-            //
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
 
+            // Context and identity configuration
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
             builder.Services.AddDbContext<AppDbContext>(options =>
             {
@@ -108,6 +108,20 @@ namespace T1_PR2_API
                 });
             });
 
+            // SignalR configuration
+            builder.Services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(policy =>
+                {
+                    policy.WithOrigins("https://localhost:7233")
+                          .AllowAnyHeader()
+                          .AllowAnyMethod()
+                          .AllowCredentials();
+                });
+            });
+
+            builder.Services.AddSignalR();
+
             // =======================
             var app = builder.Build();
             // =======================
@@ -134,6 +148,9 @@ namespace T1_PR2_API
             app.UseAuthorization();
 
             app.MapControllers();
+
+            app.UseCors();
+            app.MapHub<ChatHub>("/xat");
 
             app.Run();
         }
