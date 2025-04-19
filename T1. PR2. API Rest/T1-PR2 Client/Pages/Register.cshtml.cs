@@ -7,8 +7,14 @@ namespace T1_PR2_Client.Pages
 {
     public class RegisterModel : PageModel
     {
+        private readonly IConfiguration _configuration;
+        public RegisterModel(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
         [BindProperty]
-        public User User { get; set; }
+        public RegisterUser User { get; set; }
 
         public string ApiErrorMessage { get; set; }
 
@@ -32,20 +38,22 @@ namespace T1_PR2_Client.Pages
                 Password = User.Password
             };
 
+            var baseUrl = _configuration["ApiBaseUrl"];
+
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri("https://localhost:7003/api/auth/");
+                client.BaseAddress = new Uri(baseUrl);
                 var response = await client.PostAsJsonAsync("register", registerUserDto);
                 if (response.IsSuccessStatusCode)
                 {
-                    return RedirectToPage("/Index");
+                    return RedirectToPage("/Login");
                 }
                 else
                 {
                     string responseBody = await response.Content.ReadAsStringAsync();
                     ApiErrorMessage = $"Error en el registro ({response.StatusCode}): {responseBody}";
                    
-                    ModelState.AddModelError(string.Empty, "Falló el registro en la API. Inténtalo de nuevo o contacta soporte."); // Mensaje genérico al usuario
+                    ModelState.AddModelError(string.Empty, "Falló el registro en la API. Inténtalo de nuevo o contacta soporte.");
                     return Page();
                 }
             }
