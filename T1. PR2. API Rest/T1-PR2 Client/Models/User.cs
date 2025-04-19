@@ -19,8 +19,11 @@ namespace T1_PR2_Client.Models
 
         [Required]
         [DataType(DataType.Password)]
-        [StringLength(100, ErrorMessage = "The password must have minimum 8 characters", MinimumLength = 8)]
+        [MinLength(8, ErrorMessage = "Password must be at least 8 characters long.")]
+        [MaxLength(100, ErrorMessage = "Password cannot exceed 100 characters.")]
+        [RegularExpression(@"^(?=.*\d).+$", ErrorMessage = "Password must contain at least one number.")]
         public string Password { get; set; }
+
 
         [DataType(DataType.Password)]
         [DisplayName("Confirm password")]
