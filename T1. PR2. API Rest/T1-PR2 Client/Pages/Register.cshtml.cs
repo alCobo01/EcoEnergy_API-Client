@@ -38,14 +38,15 @@ namespace T1_PR2_Client.Pages
                 var response = await client.PostAsJsonAsync("register", registerUserDto);
                 if (response.IsSuccessStatusCode)
                 {
-                    return RedirectToPage("/Index");
+                    TempData["RegisterSuccess"] = true;
+                    TempData["SuccessMessage"] = "Account created successfully! You can now log in.";
+                    return Page();
                 }
                 else
                 {
                     string responseBody = await response.Content.ReadAsStringAsync();
-                    ApiErrorMessage = $"Error en el registro ({response.StatusCode}): {responseBody}";
-                   
-                    ModelState.AddModelError(string.Empty, "Falló el registro en la API. Inténtalo de nuevo o contacta soporte."); // Mensaje genérico al usuario
+                    ApiErrorMessage = $"Register error: ({response.StatusCode}): {responseBody}";
+                    ModelState.AddModelError(string.Empty, "Registration failed with the API. Please try again or contact support."); 
                     return Page();
                 }
             }
