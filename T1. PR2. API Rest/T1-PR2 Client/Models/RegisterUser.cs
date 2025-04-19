@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace T1_PR2_Client.Models
 {
-    public class User
+    public class RegisterUser
     {
         [Required]
         [DisplayName("Name and surnames")]
