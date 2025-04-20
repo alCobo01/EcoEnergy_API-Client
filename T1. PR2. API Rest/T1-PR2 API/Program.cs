@@ -126,6 +126,21 @@ namespace T1_PR2_API
             var app = builder.Build();
             // =======================
 
+            using (var scope = app.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                try
+                {
+                    var context = services.GetRequiredService<AppDbContext>();
+                    context.Database.Migrate();
+                }
+                catch (Exception ex)
+                {
+                    var logger = services.GetRequiredService<ILogger<Program>>();
+                    logger.LogError(ex, "An error ocurred while migrating the database.");
+                }
+            }
+
             // App pipeline
             // Crear rols inicials: Admin i Editor
             using (var scope = app.Services.CreateScope())
