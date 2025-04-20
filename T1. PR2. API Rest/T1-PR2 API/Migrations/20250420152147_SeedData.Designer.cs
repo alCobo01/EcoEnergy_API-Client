@@ -12,8 +12,8 @@ using T1_PR2_API.Data;
 namespace T1_PR2_API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250420113458_ImageUrl")]
-    partial class ImageUrl
+    [Migration("20250420152147_SeedData")]
+    partial class SeedData
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -274,6 +274,56 @@ namespace T1_PR2_API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Games");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = -1,
+                            Description = "Aventura gráfica interactiva en la que controlas a tres androides (Kara, Connor y Markus) en un futuro distópico de Detroit, donde las decisiones morales y las consecuencias cambian radicalmente el destino de la humanidad y los androides.",
+                            DeveloperTeam = "Quantic Dream",
+                            ImageUrl = "https://image.api.playstation.com/vulcan/ap/rnd/202010/3016/0qg0N4k9T1n0l8lZqR9v9r2j.png",
+                            Title = "Detroit: Become Human"
+                        },
+                        new
+                        {
+                            Id = -2,
+                            Description = "Explora las profundidades de Hallownest en este metroidvania de acción y plataformas, enfrentando criaturas letales y desvelando misterios antiguos en un mundo dibujado a mano.",
+                            DeveloperTeam = "Team Cherry",
+                            ImageUrl = "https://cdn.cloudflare.steamstatic.com/steam/apps/367520/header.jpg",
+                            Title = "Hollow Knight"
+                        },
+                        new
+                        {
+                            Id = -3,
+                            Description = "Un desafiante juego de plataformas donde ayudas a Madeline a escalar la montaña Celeste, enfrentando obstáculos físicos y emocionales en una historia de superación personal.",
+                            DeveloperTeam = "Matt Makes Games",
+                            ImageUrl = "https://cdn.cloudflare.steamstatic.com/steam/apps/504230/header.jpg",
+                            Title = "Celeste"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Description = "Aventura de mundo abierto en la que exploras el vasto reino de Hyrule, resolviendo puzles, luchando contra enemigos y descubriendo secretos en la piel de Link.",
+                            DeveloperTeam = "Nintendo EPD",
+                            ImageUrl = "https://assets.nintendo.com/image/upload/f_auto/q_auto/dpr_2.0/c_scale,w_400/ncom/en_US/games/switch/t/the-legend-of-zelda-breath-of-the-wild-switch/hero",
+                            Title = "The Legend of Zelda: Breath of the Wild"
+                        },
+                        new
+                        {
+                            Id = -5,
+                            Description = "Sumérgete en el Salvaje Oeste con Arthur Morgan y la banda de Van der Linde en una épica historia de supervivencia, lealtad y decadencia en un mundo abierto detallado.",
+                            DeveloperTeam = "Rockstar Games",
+                            ImageUrl = "https://cdn.cloudflare.steamstatic.com/steam/apps/1174180/header.jpg",
+                            Title = "Red Dead Redemption 2"
+                        },
+                        new
+                        {
+                            Id = -6,
+                            Description = "Simulador de vida y granja en el que cultivas, crías animales, exploras minas y te integras en la comunidad de Pueblo Pelícano, con infinitas posibilidades de personalización.",
+                            DeveloperTeam = "ConcernedApe",
+                            ImageUrl = "https://cdn.cloudflare.steamstatic.com/steam/apps/413150/header.jpg",
+                            Title = "Stardew Valley"
+                        });
                 });
 
             modelBuilder.Entity("T1_PR2_API.Models.User", b =>
