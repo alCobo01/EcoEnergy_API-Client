@@ -16,7 +16,7 @@ namespace T1_PR2_API.Controllers
         public GamesController(AppDbContext context) { _context = context; }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Game>>> GetAll()
+        public async Task<ActionResult<IEnumerable<Models.Game>>> GetAll()
         {
             var games = await _context.Games
                 .Include(g => g.RatedUsers)
@@ -39,7 +39,7 @@ namespace T1_PR2_API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Game>> GetById(int id)
+        public async Task<ActionResult<Models.Game>> GetById(int id)
         {
             var game = await _context.Games
                 .Include(g => g.RatedUsers)
@@ -61,7 +61,7 @@ namespace T1_PR2_API.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public async Task<ActionResult<Game>> Add(InsertGameDTO gameDTO)
+        public async Task<ActionResult<Models.Game>> Add(DTOs.InsertGameDTO gameDTO)
         {
             try
             {
@@ -70,7 +70,7 @@ namespace T1_PR2_API.Controllers
                 var existingGame = await _context.Games.FirstOrDefaultAsync(g => g.Title == gameDTO.Title);
                 if (existingGame != null) return Conflict($"Game with title {gameDTO.Title} already exists!");
 
-                var game = new Game
+                var game = new Models.Game
                 {
                     Title = gameDTO.Title,
                     Description = gameDTO.Description,
@@ -91,7 +91,7 @@ namespace T1_PR2_API.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpDelete]
-        public async Task<ActionResult<Game>> Delete(int id)
+        public async Task<ActionResult<Models.Game>> Delete(int id)
         {
             try
             {
@@ -108,7 +108,7 @@ namespace T1_PR2_API.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
-        public async Task<ActionResult<Game>> Update(int id, InsertGameDTO gameDTO)
+        public async Task<ActionResult<Models.Game>> Update(int id, DTOs.InsertGameDTO gameDTO)
         {
             try
             {
