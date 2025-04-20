@@ -26,6 +26,15 @@ namespace T1_PR2_Client
                 client.BaseAddress = new Uri(builder.Configuration["ApiBaseUrl"]);
             });
 
+            builder.Services.AddHttpClient("AuthorizedClient", client =>
+            {
+                client.BaseAddress = new Uri(builder.Configuration["ApiBaseUrl"]);
+            })
+                .AddHttpMessageHandler<AuthenticationDelegatingHandler>();
+
+            builder.Services.AddScoped<GameService>();
+
+
             // 1.2 Delegating handler para peticiones con token
             builder.Services.AddTransient<AuthenticationDelegatingHandler>();
             builder.Services.AddHttpClient("AuthorizedClient")
@@ -59,6 +68,8 @@ namespace T1_PR2_Client
 
             // 1.4 Autorización (para [Authorize], políticas, etc.)
             builder.Services.AddAuthorization();
+            
+
 
             var app = builder.Build();
 
