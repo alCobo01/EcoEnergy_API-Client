@@ -31,6 +31,7 @@ namespace T1_PR2_API.Controllers
                 Title = g.Title,
                 Description = g.Description,
                 DeveloperTeam = g.DeveloperTeam,
+                ImageUrl = g.ImageUrl,
                 RatedUsers = g.RatedUsers.Select(u => u.UserName).ToList()
             }).ToList();
 
@@ -51,6 +52,7 @@ namespace T1_PR2_API.Controllers
                 Title = game.Title,
                 Description = game.Description,
                 DeveloperTeam = game.DeveloperTeam,
+                ImageUrl = game.ImageUrl,
                 RatedUsers = game.RatedUsers.Select(u => u.UserName).ToList()
             };
 
@@ -72,7 +74,8 @@ namespace T1_PR2_API.Controllers
                 {
                     Title = gameDTO.Title,
                     Description = gameDTO.Description,
-                    DeveloperTeam = gameDTO.DeveloperTeam
+                    DeveloperTeam = gameDTO.DeveloperTeam,
+                    ImageUrl = gameDTO.ImageUrl
                 };
 
                 _context.Games.Add(game);
@@ -113,6 +116,7 @@ namespace T1_PR2_API.Controllers
                 game.Title = gameDTO.Title;
                 game.Description = gameDTO.Description;
                 game.DeveloperTeam = gameDTO.DeveloperTeam;
+                game.ImageUrl = gameDTO.ImageUrl;
                 await _context.SaveChangesAsync();
                 return Ok(game);
             }
