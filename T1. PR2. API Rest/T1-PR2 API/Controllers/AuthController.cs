@@ -74,7 +74,7 @@ namespace T1_PR2_API.Controllers
 
             var claims = new List<Claim>()
             {
-                new Claim(ClaimTypes.Name, user.Email),
+                new Claim(ClaimTypes.Name, user.UserName),
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())    
             };
 

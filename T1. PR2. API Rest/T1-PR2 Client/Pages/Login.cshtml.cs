@@ -25,6 +25,7 @@ namespace T1_PR2_Client.Pages
 
         public void OnGet()
         {
+            TempData.Clear();
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
@@ -42,8 +43,8 @@ namespace T1_PR2_Client.Pages
                 return Page();
             }
 
-            // La cookie ya está firmada; ASP.NET reconoce al usuario
-            return LocalRedirect(returnUrl);
+            TempData["SuccessMessage"] = "Login successful! Redirecting...";
+            return Page();
         }
 
     }
