@@ -9,7 +9,7 @@ function sendMessage() {
     const message = messageInput.value.trim();
     if (!message) return;
 
-    connection
+    chatConnection
         .invoke("SendMessage", user, message)
         .then(() => {
             messageInput.value = "";
@@ -19,19 +19,15 @@ function sendMessage() {
 }
 
 // Recibir mensajes
-connection.on("ReceiveMessage", (user, message) => {
-    const currentUser = document.getElementById("user").value;
+chatConnection.on("ReceiveMessage", (user, message) => {
     const msgList = document.getElementById("messages");
 
     const li = document.createElement("li");
     li.classList.add("list-group-item");
-    if (user === currentUser) {
-        li.classList.add("user-message");
-    } else {
-        li.classList.add("other-message");
-    }
     li.classList.add("animate-message");
-    li.textContent = message;
+
+    // Mostrar usuario y mensaje juntos
+    li.textContent = `${user}: ${message}`;
 
     msgList.appendChild(li);
     msgList.scrollTop = msgList.scrollHeight;
@@ -43,7 +39,7 @@ connection.on("ReceiveMessage", (user, message) => {
 });
 
 // Iniciar la conexión
-connection.start().catch((err) => console.error(err.toString()));
+chatConnection.start().catch((err) => console.error(err.toString()));
 
 document.addEventListener('keydown', (event) => {
     if (event.key === 'Enter') {
