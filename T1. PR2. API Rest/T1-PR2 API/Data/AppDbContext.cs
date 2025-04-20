@@ -25,6 +25,8 @@ namespace T1_PR2_API.Data
         {
             base.OnModelCreating(builder);
 
+            builder.Seed();
+
             builder.Entity<User>()
                 .HasMany(u => u.RatedGames)
                 .WithMany(g => g.RatedUsers);
