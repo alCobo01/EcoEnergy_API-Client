@@ -8,9 +8,11 @@ namespace T1_PR2_Client.Pages
     public class RegisterModel : PageModel
     {
         private readonly IConfiguration _configuration;
-        public RegisterModel(IConfiguration configuration)
+        private readonly HttpClient _httpClient;
+        public RegisterModel(IConfiguration configuration, HttpClient httpClient)
         {
             _configuration = configuration;
+            _httpClient = httpClient;
         }
 
         [BindProperty]
@@ -38,26 +40,20 @@ namespace T1_PR2_Client.Pages
                 Password = User.Password
             };
 
-            var baseUrl = _configuration["ApiBaseUrl"];
-
-            using (var client = new HttpClient())
+            var response = await _httpClient.PostAsJsonAsync("api/auth/register", registerUserDto);
+            if (response.IsSuccessStatusCode)
             {
-                client.BaseAddress = new Uri(baseUrl);
-                var response = await client.PostAsJsonAsync("api/auth/register", registerUserDto);
-                if (response.IsSuccessStatusCode)
-                {
-                    TempData["SuccessMessage"] = "Registration successful! Redirecting to log in...";
-                    TempData["RegisterSuccess"] = true;
-                    return Page();
-                }
-                else
-                {
-                    string responseBody = await response.Content.ReadAsStringAsync();
-                    ApiErrorMessage = $"Error creating account: ({response.StatusCode}): {responseBody}";
-                   
-                    ModelState.AddModelError(string.Empty, ApiErrorMessage);
-                    return Page();
-                }
+                TempData["SuccessMessage"] = "Registration successful! Redirecting to log in...";
+                TempData["RegisterSuccess"] = true;
+                return Page();
+            }
+            else
+            {
+                string responseBody = await response.Content.ReadAsStringAsync();
+                ApiErrorMessage = $"Error creating account: ({response.StatusCode}): {responseBody}";
+
+                ModelState.AddModelError(string.Empty, ApiErrorMessage);
+                return Page();
             }
         }
     }

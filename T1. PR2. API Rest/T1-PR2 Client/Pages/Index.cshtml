@@ -4,31 +4,29 @@
     ViewData["Title"] = "Home page";
 }
 
-<div class="text-center">
-    <div class="text-center">
-        @if (TempData.ContainsKey("LogoutMessage"))
-        {
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                @TempData["LogoutMessage"]
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        }
-        @if (TempData.ContainsKey("SuccessMessage"))
-        {
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                @TempData["SuccessMessage"]
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        }
-        @if (Model.ApiErrorMessage != string.Empty)
-        {
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                @Model.ApiErrorMessage
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        }
-    </div>
+<div class="text-center mb-4">
+    @if (TempData.ContainsKey("LogoutMessage"))
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["LogoutMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+    @if (TempData.ContainsKey("SuccessMessage"))
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+    @if (Model.ApiErrorMessage != string.Empty)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+            @Model.ApiErrorMessage
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
 </div>
 
 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
@@ -72,6 +70,5 @@
 </div>
 
 @section Scripts {
-	<script src="~/js/indexalerts.js"></script>
+    <script src="~/js/indexalerts.js"></script>
 }
-
