@@ -53,7 +53,7 @@ namespace T1_PR2_Client.Pages
                 else
                 {
                     string responseBody = await response.Content.ReadAsStringAsync();
-                    ApiErrorMessage = $"Error en el registro ({response.StatusCode}): {responseBody}";
+                    ApiErrorMessage = $"Error creating account: ({response.StatusCode}): {responseBody}";
                    
                     ModelState.AddModelError(string.Empty, ApiErrorMessage);
                     return Page();

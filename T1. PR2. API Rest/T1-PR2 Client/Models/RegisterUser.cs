@@ -21,7 +21,10 @@ namespace T1_PR2_Client.Models
         [DataType(DataType.Password)]
         [MinLength(8, ErrorMessage = "Password must be at least 8 characters long.")]
         [MaxLength(100, ErrorMessage = "Password cannot exceed 100 characters.")]
-        [RegularExpression(@"^(?=.*\d).+$", ErrorMessage = "Password must contain at least one number.")]
+        [RegularExpression(
+            @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$",
+            ErrorMessage = "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character."
+        )]
         public string Password { get; set; }
 
 
