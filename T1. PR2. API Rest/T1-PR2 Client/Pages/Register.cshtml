@@ -12,6 +12,14 @@
         @TempData["SuccessMessage"]
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            setTimeout(function () {
+                window.location.href = '/Login';
+            }, 2500);
+        });
+    </script>
 }
 
 <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>  
@@ -51,14 +59,11 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
-    @if (TempData["RegisterSuccess"] != null && (bool)TempData["RegisterSuccess"])
-    {
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                setTimeout(function() {
-                    window.location.href = '/Index';
-                }, 2500);
-            });
-        </script>
-    }
+    <script>
+        document.getElementById('registerForm').addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+            }
+        });
+    </script>
 }

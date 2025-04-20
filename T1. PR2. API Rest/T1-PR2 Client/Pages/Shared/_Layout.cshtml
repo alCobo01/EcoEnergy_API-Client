@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/T1_PR2_Client.styles.css" asp-append-version="true" />
+	<link href="~/css/chat.css" rel="stylesheet" />
 </head>
 <body>
     <header>
@@ -21,20 +22,18 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Games list</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
+                            <a class="nav-link text-dark" asp-area="" asp-page="/UsersChat">Chat</a>
                         </li>
                     </ul>
 
                     <ul class="navbar-nav ms-auto">
                         @if (User.Identity?.IsAuthenticated ?? false)
                         {
-                            <li class="nav-item">
-                                <span class="nav-link text-dark">Hello, @User.Identity.Name!</span>
-                            </li>
-                            <li class="nav-item">
+                            <li class="nav-item d-flex align-items-center">
+                                <span class="nav-link text-dark me-2">Hello, @User.Identity.Name!</span>
                                 <form method="post" asp-page="/Logout" class="d-inline">
                                     <button type="submit" class="nav-link btn btn-link text-dark p-0 border-0">Logout</button>
                                 </form>

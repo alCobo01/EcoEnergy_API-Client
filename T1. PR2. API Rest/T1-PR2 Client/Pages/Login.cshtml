@@ -17,6 +17,12 @@
                             @TempData["SuccessMessage"]
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
+
+                        <script>
+                            setTimeout(() => {
+                                window.location.href = '@Url.Content("~/")';
+                            }, 2000);
+                        </script>
                     }
 
                     <form method="post" novalidate>

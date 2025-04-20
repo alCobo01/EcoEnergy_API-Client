@@ -43,17 +43,19 @@ namespace T1_PR2_Client.Pages
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(baseUrl);
-                var response = await client.PostAsJsonAsync("register", registerUserDto);
+                var response = await client.PostAsJsonAsync("api/auth/register", registerUserDto);
                 if (response.IsSuccessStatusCode)
                 {
-                    return RedirectToPage("/Login");
+                    TempData["SuccessMessage"] = "Registration successful! Redirecting to log in...";
+                    TempData["RegisterSuccess"] = true;
+                    return Page();
                 }
                 else
                 {
                     string responseBody = await response.Content.ReadAsStringAsync();
                     ApiErrorMessage = $"Error en el registro ({response.StatusCode}): {responseBody}";
                    
-                    ModelState.AddModelError(string.Empty, "Falló el registro en la API. Inténtalo de nuevo o contacta soporte.");
+                    ModelState.AddModelError(string.Empty, ApiErrorMessage);
                     return Page();
                 }
             }

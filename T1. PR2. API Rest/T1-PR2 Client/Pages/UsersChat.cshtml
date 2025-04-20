@@ -1,0 +1,47 @@
+﻿@page "/UsersXat"
+@model T1_PR2_Client.Pages.UsersChatModel
+@{
+	ViewData["Title"] = "Users chat";
+}
+
+@if (Model.IsAuthenticated)
+{
+    <div class="container py-5 d-flex flex-column" style="height: 100vh;">
+        <h1 class="mb-4 text-center">Welcome to the chat!</h1>
+
+        <div class="card p-3">
+            <form class="d-flex gap-2 align-items-end">
+                <div class="flex-grow-1">
+                    <label for="message" class="form-label mb-1">Message:</label>
+                    <input type="text" class="form-control rounded-pill" id="message" placeholder="Write a message..." />
+                </div>
+                <input id="user" type="hidden" value="@User.Identity.Name" />
+                <button type="button" class="btn btn-primary rounded-pill px-4" onclick="sendMessage()">
+                    Send
+                </button>
+            </form>
+
+            <ul id="messages" class="list-group list-group-flush px-3 py-3"></ul>
+        </div>
+    </div>
+}
+else
+{
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <h4 class="alert-heading">Welcome to the chat!</h4>
+        <p>
+            You need to <a asp-page="/Login" class="alert-link">log in</a> or
+            <a asp-page="Register" class="alert-link">register</a> to join the conversation.
+        </p>
+        <hr />
+        <p class="mb-0">
+            Enjoy real-time chatting with our community once you're signed in.
+        </p>
+    </div>
+}
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
+	<script src="~/js/chat.js"></script>
+}
+
