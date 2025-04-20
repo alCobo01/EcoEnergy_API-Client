@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="~/T1_PR2_Client.styles.css" asp-append-version="true" />
 	<link href="~/css/chat.css" rel="stylesheet" />
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
@@ -55,12 +55,12 @@
         </nav>
     </header>
     <div class="container">
-        <main role="main" class="pb-3">
+        <main role="main" class="pb-3 flex-fill">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="border-top footer text-muted mt-auto py-3">
         <div class="container">
             Developed by Alvaro Cobo | DAMv1 2025
         </div>

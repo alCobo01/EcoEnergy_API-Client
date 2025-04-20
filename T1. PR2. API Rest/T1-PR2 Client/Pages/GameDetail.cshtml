@@ -9,40 +9,25 @@
         <div class="col-lg-8">
 
             <div class="card shadow-sm mb-4">
-                <img src="@Model.Game.ImageUrl"
-                     class="card-img-top"
-                     alt="@Model.Game.Title"
-                     style="object-fit: cover; height: 350px;">
-                <div class="card-body">
-                    <h1 class="card-title mb-3">@Model.Game.Title</h1>
-                    <h5 class="text-muted mb-4">Developed by <strong>@Model.Game.DeveloperTeam</strong></h5>
-                    <p class="card-text mb-4">@Model.Game.Description</p>
+               <img src="@Model.Game.ImageUrl"
+                    class="card-img-top"
+                    alt="@Model.Game.Title"
+                    style="object-fit: cover; height: 350px;" />
+               <div class="card-body">
+                   <h1 class="card-title mb-3">@Model.Game.Title</h1>
+                   <h5 class="text-muted mb-4">Developed by <strong>@Model.Game.DeveloperTeam</strong></h5>
+                   <p class="card-text mb-4">@Model.Game.Description</p>
 
-                    <ul class="list-group list-group-flush mb-4">
-                        <li class="list-group-item">
-                            <strong>Game ID:</strong> @Model.Game.Id
-                        </li>
-                        <li class="list-group-item">
-                            <strong>Votes:</strong> @Model.Game.RatedUsers.Count
-                        </li>
-                    </ul>
+                   <ul class="list-group list-group-flush mb-4">
+                       <li class="list-group-item">
+                           <strong>Votes:</strong> @Model.Game.RatedUsers.Count
+                       </li>
+                   </ul>
 
-                    <div class="d-flex justify-content-between align-items-center">
-                        <a asp-page="/Index" class="btn btn-outline-secondary">
-                            ← Back to list
-                        </a>
-                        <form method="post"
-                              asp-page-handler="Vote"
-                              asp-route-gameId="@Model.Game.Id"
-                              class="m-0 p-0"
-                              onclick="event.stopPropagation();">
-                            @Html.AntiForgeryToken()
-                            <button type="submit" class="btn btn-sm btn-outline-success">
-                                Vote
-                            </button>
-                        </form>
-                    </div>
-                </div>
+                   <a asp-page="/Index" class="btn btn-outline-secondary">
+                       ← Back to list
+                   </a>
+               </div>
             </div>
 
         </div>
