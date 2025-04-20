@@ -124,7 +124,7 @@ namespace T1_PR2_API.Controllers
 
         [Authorize]
         [HttpPost("vote")]
-        public async Task<ActionResult> Vote(int gameId, string userId)
+        public async Task<ActionResult> Vote(int gameId, string userName)
         {
             try
             {
@@ -132,17 +132,24 @@ namespace T1_PR2_API.Controllers
                 if (game == null) return NotFound($"Game {gameId} not found!");
 
                 // Retrieve the user as your custom User class
-                var user = await _context.Users.OfType<User>().FirstOrDefaultAsync(u => u.Id == userId);
-                if (user == null) return NotFound($"User {userId} not found!");
+                var user = await _context.Users.OfType<User>().FirstOrDefaultAsync(u => u.UserName == userName);
+                if (user == null) return NotFound($"User {userName} not found!");
 
-                if (game.RatedUsers.Any(u => u.Id == userId)) return BadRequest("User has already voted for this game.");
+                var userHasVoted = game.RatedUsers.Any(u => u.UserName == userName);
 
-                user.RatedGames.Add(game);
-                game.RatedUsers.Add(user);
-
-                await _context.SaveChangesAsync();
-
-                return Ok($"Game {game.Title} upvoted!");
+                if (userHasVoted)
+                {
+                    user.RatedGames.Remove(game);
+                    game.RatedUsers.Remove(user);
+                    await _context.SaveChangesAsync();
+                    return Ok($"Vote for game {game.Title} removed!");
+                } else
+                {
+                    user.RatedGames.Add(game);
+                    game.RatedUsers.Add(user);
+                    await _context.SaveChangesAsync();
+                    return Ok($"Game {game.Title} upvoted!");
+                }
             }
             catch (DbUpdateException)
             {
