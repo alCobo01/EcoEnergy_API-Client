@@ -40,6 +40,8 @@ namespace T1_PR2_Client.Pages
                 Password = User.Password
             };
 
+            _httpClient.BaseAddress = new Uri(_configuration["ApiBaseUrl"]);
+
             var response = await _httpClient.PostAsJsonAsync("api/auth/register", registerUserDto);
             if (response.IsSuccessStatusCode)
             {

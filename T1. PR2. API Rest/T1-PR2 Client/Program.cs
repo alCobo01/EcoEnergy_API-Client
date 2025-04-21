@@ -1,12 +1,6 @@
-﻿using System;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using T1_PR2_Client.Services;
+using T1_PR2_Client.Pages;
 
 namespace T1_PR2_Client
 {
@@ -22,6 +16,11 @@ namespace T1_PR2_Client
 
             // 1.1 AuthService + HttpClient
             builder.Services.AddHttpClient<AuthService>(client =>
+            {
+                client.BaseAddress = new Uri(builder.Configuration["ApiBaseUrl"]);
+            });
+
+            builder.Services.AddHttpClient<RegisterModel>(client =>
             {
                 client.BaseAddress = new Uri(builder.Configuration["ApiBaseUrl"]);
             });
