@@ -1,4 +1,4 @@
-html {
+﻿html {
   font-size: 14px;
 }
 
@@ -28,4 +28,100 @@ body {
 
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
+}
+
+.hover-zoom {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+.hover-zoom:hover {
+    transform: scale(1.03) translateY(-4px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+}
+
+:root {
+    --navbar-bg-start: #0d1b2a;
+    --navbar-bg-end: #1b263b;
+    --link-color: #a9d6e5;
+    --link-hover: #78c0e0;
+    --brand-color: #e0fbfc;
+    --card-bg: #1b263b;
+    --card-bg-alt: #0d1b2a;
+    --text-light: #e0fbfc;
+    --text-muted: #a9d6e5;
+    --btn-border: #78c0e0;
+    --btn-hover-bg: #78c0e0;
+    --btn-hover-text: #0d1b2a;
+}
+
+.navbar-custom {
+    background: linear-gradient( 135deg, var(--navbar-bg-start) 0%, var(--navbar-bg-end) 100% );
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
+
+.navbar-custom .navbar-brand {
+    color: var(--brand-color);
+    font-weight: bold;
+    font-size: 1.4rem;
+}
+
+.navbar-custom .nav-link {
+    color: var(--link-color);
+    transition: color .2s;
+}
+
+    .navbar-custom .nav-link:hover {
+        color: var(--link-hover);
+    }
+
+.navbar-custom .navbar-toggler {
+    border-color: var(--link-color);
+}
+
+.navbar-custom .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='%23a9d6e5' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
+.card-custom {
+    background-color: var(--card-bg);
+    color: var(--card-text);
+    border: none;
+}
+
+.card-custom .card-body {
+    flex: 1 1 auto;
+}
+
+.card-custom .card-footer {
+    background-color: transparent;
+    border-top: none;
+}
+
+.card-custom img {
+    border-bottom: 2px solid var(--badge-bg);
+}
+
+.card-custom .badge {
+    background-color: var(--badge-bg);
+    color: var(--card-bg);
+}
+
+.card-custom .btn-outline-success {
+    border-color: var(--badge-bg);
+    color: var(--badge-bg);
+}
+
+.card-custom .btn-outline-success:hover {
+    background-color: var(--badge-bg);
+    color: var(--card-text);
+}
+
+.card.hover-zoom {
+    transition: transform .3s, box-shadow .3s;
+}
+
+.card.hover-zoom:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }

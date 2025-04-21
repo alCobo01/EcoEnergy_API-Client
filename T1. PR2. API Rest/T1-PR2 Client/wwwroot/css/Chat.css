@@ -1,0 +1,54 @@
+﻿/* Card styling - no shadows */
+.card {
+    background-color: #fff; /* White background for the card */
+    border: none; /* Remove default card borders */
+    border-radius: 15px; /* Rounded corners for a modern feel */
+}
+
+/* Heading styles */
+h1 {
+    color: #2c3e50; /* Darker text color for headings */
+}
+
+/* Message list styles */
+#messages {
+    padding: 10px; /* Add some padding for visual space */
+}
+
+.list-group-item {
+    border: none; /* Remove borders from list items */
+    border-radius: 10px; /* Rounded list items for a cohesive look */
+    margin-bottom: 10px; /* Space between messages */
+    background-color: #e9ecef; /* Light grey background for messages */
+    padding-left: 15px; /* Padding on the left for messages */
+}
+
+/* Form input styles */
+.form-control {
+    border: 1px solid #ced4da; /* Custom border color */
+}
+
+/* Button styles */
+.btn-primary {
+    transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+    .btn-primary:hover {
+        background-color: #0056b3; /* Darker shade on hover */
+        border-color: #0056b3; /* Change border color on hover */
+    }
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem; /* Reduced padding for smaller screens */
+    }
+
+    .form-control {
+        font-size: 14px; /* Adjust input size for smaller screens */
+    }
+
+    .btn {
+        font-size: 14px; /* Adjust button size for smaller screens */
+    }
+}
