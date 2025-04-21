@@ -115,3 +115,11 @@ Aquesta arquitectura de serveis permet una separació clara de responsabilitats 
 - **Base de dades**: SQL Server
 
 Aquest projecte demostra la implementació d'una arquitectura client-servidor completa amb autenticació, autorització i comunicació en temps real.
+
+
+## Bibliografia
+- Auth0. (5 de gener de 2025). Guía de autenticación JWT para ASP.NET Core. Auth0 Docs. Recuperat el 17 d’abril de 2025 de [link](https://auth0.com/docs/quickstart/backend/aspnet-core-webapi)
+- Microsoft. (15 de marzo de 2025). Crear una API REST con ASP.NET Core. Microsoft Docs. Recuperat el 17 d’abril de 2025 de [link](https://learn.microsoft.com/es-es/aspnet/core/web-api/?view=aspnetcore-7.0)
+- Microsoft. (1 de febrer de 2025). ASP.NET Core Identity. Microsoft Docs. Recuperat el 21 d’abril de 2025 de [link](https://learn.microsoft.com/es-es/aspnet/core/security/authentication/identity)
+- Eniun. (s. f.). Resumen de clases Bootstrap 5. Cheat sheet. Eniun. Recuperat el 19 d’abril de 2025 de [link](https://www.eniun.com/resumen-clases-bootstrap-5-cheat-sheet/)
+- W3Schools. Bootstrap Classes Reference. Recuperat el 20 d'abril de 2025 de [link](https://www.w3schools.com/bootstrap/bootstrap_ref_all_classes.asp)
