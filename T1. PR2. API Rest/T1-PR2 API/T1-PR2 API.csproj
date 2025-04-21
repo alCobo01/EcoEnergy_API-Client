@@ -5,6 +5,8 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>T1_PR2_API</RootNamespace>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <DocumentationFile>C:\Users\isard\source\repos\m09-t1-pr2-apirest-alCobo01\docs.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

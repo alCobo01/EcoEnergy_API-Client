@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>T1-PR2 API</name>
+    </assembly>
+    <members>
+        <member name="T:T1_PR2_API.Migrations.SeedData">
+            <inheritdoc />
+        </member>
+        <member name="M:T1_PR2_API.Migrations.SeedData.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:T1_PR2_API.Migrations.SeedData.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:T1_PR2_API.Migrations.SeedData.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+    </members>
+</doc>
