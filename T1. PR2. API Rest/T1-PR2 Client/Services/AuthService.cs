@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
-using Microsoft.AspNetCore.Http;
 
 namespace T1_PR2_Client.Services
 {
@@ -20,9 +19,13 @@ namespace T1_PR2_Client.Services
             _httpContextAccessor = httpContextAccessor;
         }
 
+
         public async Task<(bool Success, string Message)> Login(LoginUser loginModel)
         {
-            // 1) Enviar las credenciales
+            // 1) Encriptar la contraseña antes de serializar
+            loginModel.Password = Convert.ToBase64String(Encoding.UTF8.GetBytes(loginModel.Password));
+
+            // 2) Enviar las credenciales
             var content = new StringContent(
                 JsonSerializer.Serialize(loginModel),
                 Encoding.UTF8,
@@ -92,7 +95,7 @@ namespace T1_PR2_Client.Services
 
             var apiTokenCookieOptions = new CookieOptions
             {
-                Expires = DateTimeOffset.Now.AddDays(-1), // Set an expired date
+                Expires = DateTimeOffset.Now.AddDays(-1),
                 HttpOnly = true,
                 Secure = true,
                 SameSite = SameSiteMode.Strict,
