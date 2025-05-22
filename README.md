@@ -1,125 +1,124 @@
-# T1. PR2. API REST - Álvaro Cobo
+# T1. PR2. REST API - Álvaro Cobo
 
-## Descripció del Projecte
+## Project Description
 
-Aquest projecte consisteix en una aplicació web completa desenvolupada amb tecnologies .NET, que inclou una API REST i un client que consumeix aquesta API. El projecte està dissenyat per gestionar un catàleg de videojocs, permetre als usuaris registrar-se, iniciar sessió, valorar els jocs i comunicar-se mitjançant un xat.
+This project consists of a complete web application developed with .NET technologies, which includes a REST API and a client consuming that API. The project is designed to manage a video game catalog, allow users to register, log in, rate games, and communicate via a chat.
 
-## Estructura del Projecte
+## Project Structure
 
-### Projecte API
+### API Project
 ![apiDiagram](img/apiDiagram.png)
 
-L'API REST està construïda amb ASP.NET Core i proporciona diversos endpoints per gestionar:
-- **Autenticació d'usuaris**: Registre, inici de sessió i gestió de rols (usuari normal i administrador)
-- **Gestió de videojocs**: Llistar, obtenir detalls, afegir, modificar i eliminar jocs
-- **Sistema de votació**: Permet als usuaris registrats votar els seus jocs preferits
+The REST API is built with ASP.NET Core and provides several endpoints to manage:
+- **User Authentication**: Registration, login, and role management (regular user and administrator)
+- **Game Management**: Listing, retrieving details, adding, updating, and deleting games
+- **Voting System**: Allows registered users to upvote or remove their vote on games
 
-La API utilitza:
-- Entity Framework Core per a la persistència de dades
-- JWT (JSON Web Tokens) per a l'autenticació i autorització d'usuaris
-- SignalR per a la comunicació en temps real
+The API uses:
+- Entity Framework Core for data persistence
+- JWT (JSON Web Tokens) for user authentication and authorization
+- SignalR for real-time communication
 
-#### Arquitectura i Controladors API
+#### API Architecture and Controllers
 
-L'API segueix una arquitectura RESTful i està organitzada en els següents controladors principals:
+The API follows a RESTful architecture and is organized into the following main controllers:
 
-- **AuthController**: Gestiona tota la lògica d'autenticació i autorització:
-  - `POST /api/auth/register`: Registre d'usuaris normals
-  - `POST /api/auth/admin/register`: Registre d'usuaris amb rol d'administrador
-  - `POST /api/auth/login`: Validació de credencials i generació de tokens JWT
+- **AuthController**: Handles all authentication and authorization logic:
+  - `POST /api/auth/register`: Register regular users
+  - `POST /api/auth/admin/register`: Register users with administrator role
+  - `POST /api/auth/login`: Validate credentials and generate JWTs
 
-- **GamesController**: Ofereix totes les operacions CRUD per als videojocs:
-  - `GET /api/games`: Retorna tots els jocs disponibles
-  - `GET /api/games/{id}`: Obté les dades d'un joc específic
-  - `POST /api/games`: Crea un nou joc (requereix rol d'administrador)
-  - `PUT /api/games/{id}`: Actualitza les dades d'un joc (requereix rol d'administrador)
-  - `DELETE /api/games`: Elimina un joc (requereix rol d'administrador)
-  - `POST /api/games/vote`: Permet a un usuari votar o desvotar un joc (requereix autenticació)
+- **GamesController**: Provides all CRUD operations for games:
+  - `GET /api/games`: Returns all available games
+  - `GET /api/games/{id}`: Retrieves data for a specific game
+  - `POST /api/games`: Creates a new game (requires administrator role)
+  - `PUT /api/games/{id}`: Updates game data (requires administrator role)
+  - `DELETE /api/games`: Deletes a game (requires administrator role)
+  - `POST /api/games/vote`: Allows a user to vote or unvote a game (requires authentication)
 
-#### Seguretat i Validació
+#### Security and Validation
 
-L'API implementa un sistema robust de seguretat:
+The API implements a robust security system:
 
-- **JWT Authentication**: Tots els endpoints protegits requereixen un token JWT vàlid
-- **Role-Based Authorization**: Certes operacions només estan disponibles per a usuaris amb el rol adequat
-- **Identity Framework**: S'utilitza ASP.NET Identity per gestionar usuaris, contrasenyes i rols
-- **Password Validation**: Implementa regles de validació de contrasenyes (longitud mínima, requeriments de complexitat)
+- **JWT Authentication**: All protected endpoints require a valid JWT
+- **Role-Based Authorization**: Certain operations are available only to users with the appropriate role
+- **Identity Framework**: ASP.NET Identity is used to manage users, passwords, and roles
+- **Password Validation**: Enforces password rules (minimum length, complexity requirements)
 
-#### Models i Relacions
+#### Models and Relationships
 
-La base de dades de l'API està estructurada amb les següents entitats principals:
+The API database is structured with the following main entities:
 
-- **User**: Estén la classe IdentityUser d'ASP.NET Identity i afegeix:
-  - Propietats personalitzades com `Name`
-  - Relació molts-a-molts amb els jocs valorats (`RatedGames`)
+- **User**: Extends ASP.NET IdentityUser and adds:
+  - Custom properties like `Name`
+  - Many-to-many relationship with rated games (`RatedGames`)
 
-- **Game**: Representa cada videojoc amb:
-  - Propietats bàsiques com `Title`, `Description`, `DeveloperTeam` i `ImageUrl`
-  - Relació molts-a-molts amb els usuaris que han valorat el joc (`RatedUsers`)
+- **Game**: Represents each video game with:
+  - Basic properties like `Title`, `Description`, `DeveloperTeam`, and `ImageUrl`
+  - Many-to-many relationship with users who have rated the game (`RatedUsers`)
 
-### Diagrama de la Base de Dades
+### Database Diagram
 ![bdDiagram](img/bdDiagram.png)
 
-L'estructura de la base de dades utilitza Entity Framework Core per gestionar les relacions entre entitats:
+The database structure uses Entity Framework Core to manage entity relationships:
 
-- **Taules principals creades manualment**:
-  - **Games**: Emmagatzema informació sobre els videojocs (Id, Title, Description, DeveloperTeam, ImageUrl)
-  - **Users**: Estén AspNetUsers d'Identity Framework i afegeix propietats personalitzades (Name)
+- **Main Tables Created Manually**:
+  - **Games**: Stores information about video games (Id, Title, Description, DeveloperTeam, ImageUrl)
+  - **Users**: Extends AspNetUsers from Identity Framework and adds custom properties (Name)
 
-- **Relació Molts-a-Molts**:
-  - Entre `Users` i `Games` hi ha una relació molts-a-molts (un usuari pot valorar molts jocs, i un joc pot ser valorat per molts usuaris)
-  - Entity Framework crea automàticament una taula d'unió (join table) per gestionar aquesta relació
-  - Aquesta taula intermèdia conté parells de claus foranes que vinculen usuaris i jocs
+- **Many-to-Many Relationship**:
+  - Between `Users` and `Games`, allowing one user to rate many games and one game to be rated by many users
+  - Entity Framework automatically creates a join table to manage this relationship
+  - The join table contains foreign key pairs linking users and games
 
-- **Taules generades per ASP.NET Identity**:
-  - AspNetRoles, AspNetUserRoles, AspNetUserClaims, etc. - per gestionar l'autenticació i l'autorització basada en rols
+- **Tables Generated by ASP.NET Identity**:
+  - AspNetRoles, AspNetUserRoles, AspNetUserClaims, etc., to manage role-based authentication and authorization
 
-Aquest enfocament permet una gran flexibilitat en les consultes i relacions, mentre Entity Framework s'encarrega de la complexitat de gestionar les taules intermèdies i les relacions.a
+This setup allows great flexibility in queries and relationships while Entity Framework handles the complexity of join tables and relationships.
 
-### Projecte Client
+### Client Project
 ![clientDiagram](img/clientDiagram.png)
 
-El client està desenvolupat amb ASP.NET Core utilitzant el patró Razor Pages i ofereix una interfície d'usuari per:
-- Registrar-se i iniciar sessió
-- Visualitzar el catàleg de jocs
-- Veure detalls de cada joc
-- Votar els jocs (si l'usuari està autenticat)
-- Xatejar amb altres usuaris en temps real
-- Gestionar els jocs (crear, modificar, eliminar) si l'usuari té rol d'administrador
+The client is developed with ASP.NET Core using the Razor Pages pattern and provides a user interface to:
+- Register and log in
+- View the game catalog
+- See details of each game
+- Rate games (if the user is authenticated)
+- Chat with other users in real time
+- Manage games (create, update, delete) if the user has an administrator role
 
-#### Serveis del Client
+#### Client Services
 
-El projecte client implementa un patró de disseny centralitzat per gestionar les comunicacions amb l'API:
+The client project implements a centralized service pattern to handle communications with the API:
 
-- **AuthService**: Centralitza tota la lògica d'autenticació, gestionant:
-  - Login d'usuaris enviant credencials a l'API
-  - Processament i emmagatzematge de tokens JWT
-  - Conversió dels JWT claims a cookies d'autenticació del client
-  - Gestió del tancament de sessió
+- **AuthService**: Centralizes all authentication logic, managing:
+  - User login by sending credentials to the API
+  - Processing and storing JWTs
+  - Converting JWT claims into client authentication cookies
+  - Handling logout
 
-- **GameService**: Facilita totes les operacions relacionades amb videojocs:
-  - Obtenció del llistat de jocs des de l'API
-  - Consulta de detalls de jocs individuals
-  - Gestió de vots als jocs
-  - Tractament d'errors en la comunicació amb l'API
+- **GameService**: Facilitates all game-related operations:
+  - Retrieving the list of games from the API
+  - Fetching details of individual games
+  - Managing game votes
+  - Handling API communication errors
 
-- **AuthenticationDelegatingHandler**: Interceptor que afegeix automàticament el token JWT a totes les peticions HTTP, permetent l'accés a recursos protegits sense necessitat de gestionar la lògica d'autenticació en cada petició.
+- **AuthenticationDelegatingHandler**: An interceptor that automatically adds the JWT to all HTTP requests, allowing access to protected resources without handling authentication logic in each request.
 
-Aquesta arquitectura de serveis permet una separació clara de responsabilitats i facilita el manteniment i l'extensió de l'aplicació.
+This service architecture ensures a clear separation of concerns and makes the application easy to maintain and extend.
 
-## Tecnologies Utilitzades
+## Technologies Used
 
 - **Backend**: ASP.NET Core, Entity Framework Core, SignalR
 - **Frontend**: Razor Pages, Bootstrap
-- **Seguretat**: JWT, Identity Framework
-- **Base de dades**: SQL Server
+- **Security**: JWT, Identity Framework
+- **Database**: SQL Server
 
-Aquest projecte demostra la implementació d'una arquitectura client-servidor completa amb autenticació, autorització i comunicació en temps real.
+This project demonstrates a full client-server architecture with authentication, authorization, and real-time communication.
 
-
-## Bibliografia
-- Auth0. (5 de gener de 2025). Guía de autenticación JWT para ASP.NET Core. Auth0 Docs. Recuperat el 17 d’abril de 2025 de [link](https://auth0.com/docs/quickstart/backend/aspnet-core-webapi)
-- Microsoft. (15 de marzo de 2025). Crear una API REST con ASP.NET Core. Microsoft Docs. Recuperat el 17 d’abril de 2025 de [link](https://learn.microsoft.com/es-es/aspnet/core/web-api/?view=aspnetcore-7.0)
-- Microsoft. (1 de febrer de 2025). ASP.NET Core Identity. Microsoft Docs. Recuperat el 21 d’abril de 2025 de [link](https://learn.microsoft.com/es-es/aspnet/core/security/authentication/identity)
-- Eniun. (s. f.). Resumen de clases Bootstrap 5. Cheat sheet. Eniun. Recuperat el 19 d’abril de 2025 de [link](https://www.eniun.com/resumen-clases-bootstrap-5-cheat-sheet/)
-- W3Schools. Bootstrap Classes Reference. Recuperat el 20 d'abril de 2025 de [link](https://www.w3schools.com/bootstrap/bootstrap_ref_all_classes.asp)
+## Bibliography
+- Auth0. (January 5, 2025). JWT Authentication Guide for ASP.NET Core. Auth0 Docs. Retrieved April 17, 2025, from [link](https://auth0.com/docs/quickstart/backend/aspnet-core-webapi)
+- Microsoft. (March 15, 2025). Create a REST API with ASP.NET Core. Microsoft Docs. Retrieved April 17, 2025, from [link](https://learn.microsoft.com/es-es/aspnet/core/web-api/?view=aspnetcore-7.0)
+- Microsoft. (February 1, 2025). ASP.NET Core Identity. Microsoft Docs. Retrieved April 21, 2025, from [link](https://learn.microsoft.com/es-es/aspnet/core/security/authentication/identity)
+- Eniun. (n.d.). Bootstrap 5 Class Cheat Sheet. Eniun. Retrieved April 19, 2025, from [link](https://www.eniun.com/resumen-clases-bootstrap-5-cheat-sheet/)
+- W3Schools. Bootstrap Classes Reference. Retrieved April 20, 2025, from [link](https://www.w3schools.com/bootstrap/bootstrap_ref_all_classes.asp)
